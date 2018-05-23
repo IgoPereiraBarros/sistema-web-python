@@ -2,6 +2,7 @@ from bottle import route, run
 from bottle import request, template
 from bottle import static_file, get
 from bottle import error
+import os
 
 '''@route('/')
 @route('/user/<nome>')
@@ -34,7 +35,7 @@ def stylesheets(filename):
 def stylesheets(filename):
 	return static(filename, root='static/fonts')
 
-@route('/login') # @get('/login')
+@route('/') # @get('/login')
 def login():
 	return template('login')
 
@@ -46,7 +47,12 @@ def auth_login(username, password):
 	return False 
 
 
-@route('/login', method='POST')
+'''@route('/')
+def indexHome():
+	return template('index_home')
+'''
+
+@route('/', method='POST')
 def acao_login(): # @post('/login')
 	username = request.forms.get('username')
 	password = request.forms.get('password')
@@ -58,4 +64,7 @@ def error404(error):
 	return template('pagina404')
 
 if __name__ == '__main__':
-	run(host='localhost', port=8080, debug=True, reloader=True)
+	if os.enverion.get('APP_LOCATION') == 'heroku':
+		run(host='0.0.0.0', port=int(os.enverion.get('PORT', 5000)))
+	else:
+		run(host='localhost', port=8080, debug=True, reloader=True)
