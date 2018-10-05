@@ -1,0 +1,10 @@
+% rebase('base.html', title='Verificação login')
+% if sucesso:
+	<div class="alert alert-success">
+		<strong>Sucesso!</strong> Olá {{ nome }}, seja bem vindo(a) ao mundo do python!
+	</div>
+% else:
+	<div class="alert alert-danger">
+		<strong>Erro!</strong> Tente fazer o login novamente, aperte <a class="link" href="/">aqui.</a>
+	</div>
+% end

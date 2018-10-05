@@ -1,1 +1,1 @@
-web: python sec7_aula100.py
+web: python run.py
