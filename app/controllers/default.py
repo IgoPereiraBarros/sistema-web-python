@@ -56,20 +56,25 @@ def acao_cadastro(db):
 
 
 @app.route('/', method='POST')
-def acao_login(db):  # @post('/login')
+def acao_login(db, session):  # @post('/login')
     username = request.forms.get('username')
     password = request.forms.get('password')
     result = db.query(User).filter((User.username == username)
                                    & (User.password == password)).all()
     if result:
+        session['name'] = username
         return redirect('/usuarios')
     return template('login', sucesso=False)
 
 
 @app.route('/usuarios')
-def usuarios(db):
+def usuarios(db, session):
+    if session.get('name'):
+        acesso = True
+    else:
+        acesso = False
     usuarios = db.query(User).all()
-    return template('lista_usuarios', usuarios=usuarios)
+    return template('lista_usuarios', usuarios=usuarios, acesso=acesso)
 
 
 @app.error(404)

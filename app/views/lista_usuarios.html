@@ -4,8 +4,14 @@
   <h3 class="panel-title">Lista de usuários</h3>
 </div>
 
-<div class="list-group">
-	% for usuario in usuarios:
-	<li class="list-group-item">{{ usuario.username }}</li>
-	%end
-</div>
+<ul class="list-group">
+  % if acesso:
+    % for usuario in usuarios:
+    <li class="list-group-item">{{ usuario.username }}</li>
+    %end
+  % else:
+  <center>
+    <p style="color:red">Acesso negado!</p>
+  </center>
+  % end
+</ul>

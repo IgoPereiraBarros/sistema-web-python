@@ -18,4 +18,9 @@
   <center>
     <p>Não tem login? <a href="cadastro">Cadastre-se aqui</a></p>
   </center>
+  % if not sucesso:
+  <center>
+    <p style="color:red">Usuário e/ou senha incorreto(s)!</p>
+  </center>
+  % end
 </div>
