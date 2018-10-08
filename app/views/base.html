@@ -1,20 +1,28 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>{{ title or 'Sistema login python' }}</title>
 
 	<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="login.css">
+	<link rel="icon" href="login.png">
 
 	<script type="text/javascript" charset="utf-8" src="login.js"></script>
 </head>
+
 <body>
-	<center>
-		<h1>Sistema login com python e bottle</h1>
-		{{ !base }}
-	</center>
-		<footer>
-			<p align="center">Dúvidas? <a href="http://developied.comli.com/" target="_black" class="email">developied.comli.com</a></p>
-		</footer>
+
+	<div class="container">
+		<div class="row vertical-offset-100">
+			<div class="col-md-4 col-md-offset-4">
+				<div class="panel panel-default">
+					{{ !base }}
+				</div>
+				<footer>
+					<p align="center">Dúvidas? <a href="http://developied.comli.com/" target="_black" class="email">developied.comli.com</a></p>
+				</footer>
+			</div>
 </body>
+
 </html>

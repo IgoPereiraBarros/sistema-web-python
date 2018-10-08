@@ -8,6 +8,7 @@ Base = declarative_base()
 engine = create_engine('sqlite:///database_login.db', echo=True)
 
 app = Bottle()
+
 TEMPLATE_PATH.insert(0, 'app/views/')
 
 plugin = sqlalchemy.Plugin(
