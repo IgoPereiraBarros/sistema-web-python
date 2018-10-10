@@ -2,6 +2,7 @@ from bottle import request
 from bottle import template
 from bottle import static_file
 from bottle import redirect
+import bcrypt
 
 from app import app
 from app.models.tables import User
@@ -40,17 +41,23 @@ def cadastro():
 
 
 @app.route('/cadastro', method='POST')
-def acao_cadastro(db):
+def acao_cadastro(db, session):
     username = request.forms.get('username')
-    password = request.forms.get('password')
     try:
         db.query(User).filter(User.username == username).one()
         existe_username = True
     except:
         existe_username = False
     if not existe_username:
-        new_user = User(username, password)
+        password = request.forms.get('password')
+        password_bytes = str.encode(password)
+        salt_bytes = bcrypt.gensalt()
+        salt = salt_bytes.decode()
+        hashed_bytes = bcrypt.hashpw(password_bytes, salt_bytes)
+        hashed = hashed_bytes.decode()
+        new_user = User(username, hashed, salt)
         db.add(new_user)
+        session['name'] = username
         return redirect('/usuarios')
     return template('cadastro', existe_username=True)
 
@@ -58,12 +65,23 @@ def acao_cadastro(db):
 @app.route('/', method='POST')
 def acao_login(db, session):  # @post('/login')
     username = request.forms.get('username')
-    password = request.forms.get('password')
-    result = db.query(User).filter((User.username == username)
-                                   & (User.password == password)).all()
-    if result:
-        session['name'] = username
-        return redirect('/usuarios')
+    try:
+        user = db.query(User).filter(User.username == username).one()
+        existe_username = True
+    except:
+        existe_username = False
+
+    if existe_username:
+        password = request.forms.get('password')
+        password_bytes = str.encode(password)
+        salt_bytes = str.encode(user.salt)
+        hashed_bytes = bcrypt.hashpw(password_bytes, salt_bytes)
+        hashed = hashed_bytes.decode()
+
+        if resuser.hashed == hashedult:
+            session['name'] = username
+            return redirect('/usuarios')
+
     return template('login', sucesso=False)
 
 
